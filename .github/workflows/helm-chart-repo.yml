@@ -22,7 +22,6 @@ jobs:
 
       - name: Package chart
         run: |
-          mkdir -p repo
           helm package charts/guacamole -d repo
 
       - name: Update index
