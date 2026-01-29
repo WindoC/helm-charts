@@ -1,6 +1,6 @@
-# Helm Chart Repository (GitHub Pages)
+# Community Helm Charts for Docker-First Projects on Kubernetes
 
-This repo is a Helm **Chart Repository** served via GitHub Pages.
+This repository provides Helm charts for popular tools and services that officially document only Docker or Docker Compose deployments. It translates those Docker-centric setups into practical, reusable Kubernetes Helm charts, based on real-world usage and production experience.
 
 ## Repo URL
 
@@ -16,6 +16,9 @@ This repo is a Helm **Chart Repository** served via GitHub Pages.
 
 ```bash
 helm repo add windoc https://windoc.github.io/helm-charts
-helm repo update
+helm repo update windoc
+helm search repo windoc
+
+# example to install from one of this helo repo
 helm install guacamole windoc/guacamole -n guacamole
 ```
