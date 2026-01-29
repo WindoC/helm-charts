@@ -1,0 +1,19 @@
+{{- if .Values.recordings.createPvc }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.names.recordingsPvc }}
+  namespace: {{ include "guacamole.namespace" . | quote }}
+  labels:
+    {{- include "guacamole.commonLabels" . | nindent 4 }}
+spec:
+  accessModes:
+    {{- toYaml .Values.recordings.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.recordings.size }}
+  {{- if .Values.recordings.storageClassName }}
+  storageClassName: {{ .Values.recordings.storageClassName | quote }}
+  {{- end }}
+  volumeMode: {{ .Values.recordings.volumeMode }}
+{{- end }}

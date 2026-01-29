@@ -1,0 +1,8 @@
+# Helm repo output
+repo/*.tgz
+repo/index.yaml
+
+# OS/editor
+.DS_Store
+*.swp
+*.swo

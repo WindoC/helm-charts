@@ -1,0 +1,105 @@
+names:
+  configMap: guacamole-config
+  secret: guacamole-secrets
+  postgresService: postgres
+  postgresStatefulSet: postgres
+  guacamoleDeployment: guacamole
+  guacamoleService: guacamole
+  guacdService: guacd
+  recordingsPvc: data-pvc
+
+namespace:
+  create: false
+
+configMap:
+  create: true
+  data:
+    POSTGRESQL_DATABASE: guacamole
+    POSTGRESQL_ENABLED: "true"
+    POSTGRESQL_USERNAME: guacamole
+    RECORDING_ENABLED: "true"
+    REMOTE_IP_VALVE_ENABLED: "true"
+    TOTP_ENABLED: "true"
+
+secret:
+  create: true
+  dbPasswordKey: DB_POSTGRESDB_PASSWORD
+  dbPassword: "db_password_change_me"
+
+postgres:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: 17.6-alpine3.21
+    pullPolicy: IfNotPresent
+  initdb:
+    enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 50Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  persistence:
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+    #storageClassName: ""
+    volumeMode: Filesystem
+    subPath: data
+    pvcRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+    partition: 0
+
+guacamole:
+  replicaCount: 1
+  strategy:
+    type: Recreate
+  image:
+    repository: guacamole/guacamole
+    tag: 1.6.0
+    pullPolicy: IfNotPresent
+  guacdImage:
+    repository: guacamole/guacd
+    tag: 1.6.0
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  guacdResources:
+    requests:
+      cpu: 250m
+      memory: 50Mi
+  env:
+    guacdHostname: guacd
+    postgresHostname: postgres
+
+recordings:
+  createPvc: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  #storageClassName: ""
+  volumeMode: Filesystem
+  subPath: recordings
+
+ingress:
+  enabled: true
+  name: guacamole-ingress
+  #ingressClassName: ""
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-cookie-path: /guacamole/ /
+    nginx.ingress.kubernetes.io/rewrite-target: /guacamole/$1
+  host: guacamole.windo.me
+  path: /(.*)
+  pathType: ImplementationSpecific
+  tls:
+    enabled: true
+    secretName: guacamole-windo-me-cert

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.names.guacdService }}
+  namespace: {{ include "guacamole.namespace" . | quote }}
+  labels:
+    io.kompose.service: guacamole
+    {{- include "guacamole.commonLabels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    io.kompose.service: guacamole
+  ports:
+    - name: guacd
+      port: 4822
+      protocol: TCP
+      targetPort: 4822

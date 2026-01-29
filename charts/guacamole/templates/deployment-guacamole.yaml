@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.guacamoleDeployment }}
+  namespace: {{ include "guacamole.namespace" . | quote }}
+  labels:
+    io.kompose.service: guacamole
+    {{- include "guacamole.commonLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.guacamole.replicaCount }}
+  selector:
+    matchLabels:
+      io.kompose.service: guacamole
+  strategy:
+    type: {{ .Values.guacamole.strategy.type }}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: guacamole
+    spec:
+      containers:
+        - name: guacamole
+          image: "{{ .Values.guacamole.image.repository }}:{{ .Values.guacamole.image.tag }}"
+          imagePullPolicy: {{ .Values.guacamole.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              name: guacamole
+              protocol: TCP
+          env:
+            - name: GUACD_HOSTNAME
+              value: {{ .Values.guacamole.env.guacdHostname | quote }}
+            - name: POSTGRESQL_HOSTNAME
+              value: {{ .Values.guacamole.env.postgresHostname | quote }}
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.names.secret }}
+                  key: {{ .Values.secret.dbPasswordKey }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.names.configMap }}
+          resources:
+            {{- toYaml .Values.guacamole.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/lib/guacamole/recordings
+              name: data-pvc
+              subPath: {{ .Values.recordings.subPath }}
+        - name: guacd
+          image: "{{ .Values.guacamole.guacdImage.repository }}:{{ .Values.guacamole.guacdImage.tag }}"
+          imagePullPolicy: {{ .Values.guacamole.guacdImage.pullPolicy }}
+          ports:
+            - containerPort: 4822
+              name: guacd
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.guacamole.guacdResources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/lib/guacamole/recordings
+              name: data-pvc
+              subPath: {{ .Values.recordings.subPath }}
+      volumes:
+        - name: data-pvc
+          persistentVolumeClaim:
+            claimName: {{ .Values.names.recordingsPvc }}

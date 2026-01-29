@@ -1,0 +1,11 @@
+{{- if .Values.configMap.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.names.configMap }}
+  namespace: {{ include "guacamole.namespace" . | quote }}
+  labels:
+    {{- include "guacamole.commonLabels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.configMap.data | nindent 2 }}
+{{- end }}
