@@ -17,7 +17,7 @@ configMap:
     POSTGRESQL_DATABASE: guacamole
     POSTGRESQL_ENABLED: "true"
     POSTGRESQL_USERNAME: guacamole
-    RECORDING_ENABLED: "true"
+    RECORDING_ENABLED: "false"
     REMOTE_IP_VALVE_ENABLED: "true"
     TOTP_ENABLED: "true"
 
@@ -34,13 +34,7 @@ postgres:
     pullPolicy: IfNotPresent
   initdb:
     enabled: true
-  resources:
-    requests:
-      cpu: 100m
-      memory: 50Mi
-    limits:
-      cpu: 200m
-      memory: 128Mi
+  resources: {}
   persistence:
     size: 10Gi
     accessModes:
@@ -68,20 +62,14 @@ guacamole:
     repository: guacamole/guacd
     tag: 1.6.0
     pullPolicy: IfNotPresent
-  resources:
-    requests:
-      cpu: 250m
-      memory: 256Mi
-  guacdResources:
-    requests:
-      cpu: 250m
-      memory: 50Mi
+  resources: {}
+  guacdResources: {}
   env:
     guacdHostname: guacd
     postgresHostname: postgres
 
 recordings:
-  createPvc: true
+  createPvc: false
   size: 10Gi
   accessModes:
     - ReadWriteOnce
@@ -90,16 +78,13 @@ recordings:
   subPath: recordings
 
 ingress:
-  enabled: true
+  enabled: false
   name: guacamole-ingress
   #ingressClassName: ""
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/proxy-cookie-path: /guacamole/ /
-    nginx.ingress.kubernetes.io/rewrite-target: /guacamole/$1
-  host: guacamole.windo.me
+  annotations: {}
+  host: guacamole.example.com
   path: /(.*)
   pathType: ImplementationSpecific
   tls:
     enabled: true
-    secretName: guacamole-windo-me-cert
+    secretName: guacamole-tls-cert

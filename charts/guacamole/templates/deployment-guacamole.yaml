@@ -41,10 +41,12 @@ spec:
                 name: {{ .Values.names.configMap }}
           resources:
             {{- toYaml .Values.guacamole.resources | nindent 12 }}
+          {{- if .Values.recordings.createPvc }}
           volumeMounts:
             - mountPath: /var/lib/guacamole/recordings
               name: data-pvc
               subPath: {{ .Values.recordings.subPath }}
+          {{- end }}
         - name: guacd
           image: "{{ .Values.guacamole.guacdImage.repository }}:{{ .Values.guacamole.guacdImage.tag }}"
           imagePullPolicy: {{ .Values.guacamole.guacdImage.pullPolicy }}
@@ -54,11 +56,15 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.guacamole.guacdResources | nindent 12 }}
+          {{- if .Values.recordings.createPvc }}
           volumeMounts:
             - mountPath: /var/lib/guacamole/recordings
               name: data-pvc
               subPath: {{ .Values.recordings.subPath }}
+          {{- end }}
+      {{- if .Values.recordings.createPvc }}
       volumes:
         - name: data-pvc
           persistentVolumeClaim:
             claimName: {{ .Values.names.recordingsPvc }}
+      {{- end }}
