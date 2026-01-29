@@ -3,12 +3,12 @@ entries:
   guacamole:
   - apiVersion: v2
     appVersion: 1.6.0
-    created: "2026-01-29T15:19:50.064093871Z"
+    created: "2026-01-29T15:36:57.180127093Z"
     description: Guacamole + Postgres (from repo manifests)
-    digest: 3e934d300d8fbd9280266bc110a4dd99b6c4f63e5150394d5bebe14b6ee517f6
+    digest: 8d91d27edc8fe601abbb91b9d621249f48ae4debfc54ccbd97fe1b82b10133ee
     name: guacamole
     type: application
     urls:
     - https://windoc.github.io/helm-charts/guacamole-0.1.1.tgz
     version: 0.1.1
-generated: "2026-01-29T15:19:50.063198738Z"
+generated: "2026-01-29T15:36:57.179587402Z"
