@@ -26,21 +26,18 @@ To enable recording support:
 
 For the official environment variable reference (including container-specific settings), see the Guacamole docs (Configuring Guacamole → Container (Docker)): https://guacamole.apache.org/doc/gug/configuring-guacamole.html. Configure any needed settings under `configMap.data.*`.
 
+## Install the repo (id needed)
+
+```bash
+helm repo add windoc https://windoc.github.io/helm-charts
+helm repo update windoc
+helm search repo windoc
+```
+
 ## Install with your own values file
 
 Create your own `values.yaml` and install like this:
 
 ```bash
 helm install guacamole windoc/guacamole -n guacamole -f values.yaml
-```
-
-## Install
-
-```bash
-helm repo add windoc https://windoc.github.io/helm-charts
-helm repo update windoc
-helm search repo windoc
-
-# example to install from one of this helo repo
-helm install guacamole windoc/guacamole -n guacamole
 ```
