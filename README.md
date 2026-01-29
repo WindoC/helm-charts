@@ -6,16 +6,11 @@ This repo is a Helm **Chart Repository** served via GitHub Pages.
 
 `https://windoc.github.io/helm-charts`
 
-## Add/Update chart (Option A)
+## Charts
 
-From this repo root (`helm/`):
-
-```bash
-helm package ./charts/guacamole -d repo
-helm repo index repo --url https://windoc.github.io/helm-charts
-```
-
-Commit and push the contents of `repo/` to the `gh-pages` branch (or enable Pages for that branch).
+| Chart | Description | Version | App Version |
+| --- | --- | --- | --- |
+| [`guacamole`](charts/guacamole/README.md) | Guacamole + Postgres (from repo manifests) | `0.1.0` | `1.6.0` |
 
 ## Install
 
