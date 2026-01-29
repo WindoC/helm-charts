@@ -38,6 +38,9 @@ helm install guacamole windoc/guacamole -n guacamole -f values.yaml
 
 ```bash
 helm repo add windoc https://windoc.github.io/helm-charts
-helm repo update
+helm repo update windoc
+helm search repo windoc
+
+# example to install from one of this helo repo
 helm install guacamole windoc/guacamole -n guacamole
 ```
