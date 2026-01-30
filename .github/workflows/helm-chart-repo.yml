@@ -7,6 +7,7 @@ on:
     paths:
       - "charts/**"
       - "repo/**"
+      - ".github/workflows/helm-chart-repo.yml"
 
 permissions:
   contents: write
@@ -21,9 +22,13 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v4
 
-      - name: Package chart
+      - name: Package charts
         run: |
-          helm package charts/guacamole -d repo
+          for chart in charts/*; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              helm package "$chart" -d repo
+            fi
+          done
 
       - name: Update index
         run: |
