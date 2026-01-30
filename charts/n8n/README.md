@@ -8,7 +8,7 @@ Update these in `values.yaml` before installing:
 
 - **Database password**: `secret.DB_POSTGRESDB_PASSWORD` (default is a placeholder)
 - **n8n config**: `configMap.data.*` (set `N8N_HOST` and `WEBHOOK_URL` to your FQDN)
-- **Ingress**: set `ingress.host` and optional `ingress.annotations` (for TLS, include `cert-manager.io/cluster-issuer:` if you use cert-manager)
+- **Ingress**: uses `configMap.data.N8N_HOST` for the host; set optional `ingress.annotations` (for TLS, include `cert-manager.io/cluster-issuer:` if you use cert-manager)
 - **Storage**:
   - n8n PVC: `persistence.*`
   - Postgres PVC: `postgres.persistence.*`
@@ -74,7 +74,7 @@ helm install n8n windoc/n8n -n n8n -f values.yaml
 | `ingress.name` | string | `n8n-ingress` | Ingress name |
 | `ingress.ingressClassName` | string | `""` | Ingress class name |
 | `ingress.annotations` | object | `{}` | Extra ingress annotations |
-| `ingress.host` | string | `n8n.example.com` | Ingress host |
+| `ingress.host` | string | `n8n.example.com` | Deprecated (ingress uses `configMap.data.N8N_HOST`) |
 | `ingress.path` | string | `/(.*)` | Ingress path |
 | `ingress.pathType` | string | `ImplementationSpecific` | Ingress path type |
 | `ingress.tls.enabled` | bool | `true` | Enable TLS |
