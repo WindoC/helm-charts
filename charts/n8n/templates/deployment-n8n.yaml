@@ -18,6 +18,22 @@ spec:
       labels:
         io.kompose.service: n8n
     spec:
+      {{- if and .Values.persistence.createPvc .Values.n8n.initPermissions.enabled }}
+      initContainers:
+        - name: n8n-init-permissions
+          image: "{{ .Values.n8n.initPermissions.image.repository }}:{{ .Values.n8n.initPermissions.image.tag }}"
+          imagePullPolicy: {{ .Values.n8n.initPermissions.image.pullPolicy }}
+          securityContext:
+            runAsUser: 0
+          command:
+            - sh
+            - -c
+            - chown -R 1000:1000 /home/node/.n8n && chmod -R 755 /home/node/.n8n
+          volumeMounts:
+            - mountPath: {{ .Values.persistence.mountPath }}
+              name: n8n-data
+              subPath: {{ .Values.persistence.subPath }}
+      {{- end }}
       containers:
         - name: n8n
           image: "{{ .Values.n8n.image.repository }}:{{ .Values.n8n.image.tag }}"
