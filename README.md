@@ -11,7 +11,7 @@ This repository provides Helm charts for popular tools and services that officia
 | Chart | Description | Version | App Version |
 | --- | --- | --- | --- |
 | [`guacamole`](charts/guacamole/README.md) | Guacamole + Postgres (from repo manifests) | `0.1.2` | `1.6.0` |
-| [`n8n`](charts/n8n/README.md) | n8n + postgres (from repo manifests) | `0.1.4` | `2.4.7` |
+| [`n8n`](charts/n8n/README.md) | n8n + postgres (from repo manifests) | `0.1.5` | `2.4.7` |
 
 ## Install
 
