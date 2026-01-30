@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.names.postgresService }}
+  namespace: {{ include "n8n.namespace" . | quote }}
+  labels:
+    io.kompose.service: postgres
+    {{- include "n8n.commonLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.postgres.type }}
+  selector:
+    io.kompose.service: postgres
+  ports:
+    - name: {{ .Values.service.postgres.name }}
+      port: {{ .Values.service.postgres.port }}
+      protocol: TCP
+      targetPort: {{ .Values.service.postgres.targetPort }}

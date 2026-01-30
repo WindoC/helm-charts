@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.n8nDeployment }}
+  namespace: {{ include "n8n.namespace" . | quote }}
+  labels:
+    io.kompose.service: n8n
+    {{- include "n8n.commonLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.n8n.replicaCount }}
+  selector:
+    matchLabels:
+      io.kompose.service: n8n
+  strategy:
+    type: {{ .Values.n8n.strategy.type }}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: n8n
+    spec:
+      containers:
+        - name: n8n
+          image: "{{ .Values.n8n.image.repository }}:{{ .Values.n8n.image.tag }}"
+          imagePullPolicy: {{ .Values.n8n.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.n8n.targetPort }}
+              name: {{ .Values.service.n8n.name }}
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ .Values.names.secret }}
+            - configMapRef:
+                name: {{ .Values.names.configMap }}
+          resources:
+            {{- toYaml .Values.n8n.resources | nindent 12 }}
+          {{- if .Values.persistence.createPvc }}
+          volumeMounts:
+            - mountPath: {{ .Values.persistence.mountPath }}
+              name: n8n-data
+              subPath: {{ .Values.persistence.subPath }}
+          {{- end }}
+      {{- if .Values.persistence.createPvc }}
+      volumes:
+        - name: n8n-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.names.n8nPvc }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
