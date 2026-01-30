@@ -10,7 +10,7 @@ This repository provides Helm charts for popular tools and services that officia
 
 | Chart | Description | Version | App Version |
 | --- | --- | --- | --- |
-| [`guacamole`](charts/guacamole/README.md) | Guacamole + Postgres (from repo manifests) | `0.1.0` | `1.6.0` |
+| [`guacamole`](charts/guacamole/README.md) | Guacamole + Postgres (from repo manifests) | `0.1.1` | `1.6.0` |
 
 ## Install
 
@@ -19,6 +19,6 @@ helm repo add windoc https://windoc.github.io/helm-charts
 helm repo update windoc
 helm search repo windoc
 
-# example to install from one of this helo repo
+# example to install one of the application with this repo
 helm install guacamole windoc/guacamole -n guacamole
 ```
