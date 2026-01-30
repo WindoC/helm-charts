@@ -17,7 +17,7 @@ spec:
   ingressClassName: {{ .Values.ingress.ingressClassName }}
   {{- end }}
   rules:
-    - host: {{ .Values.configMap.data.N8N_HOST | quote }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - backend:
@@ -30,7 +30,7 @@ spec:
   {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        - {{ .Values.configMap.data.N8N_HOST | quote }}
+        - {{ .Values.ingress.host }}
       secretName: {{ .Values.ingress.tls.secretName }}
   {{- end }}
 {{- end }}
