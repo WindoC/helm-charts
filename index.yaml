@@ -3,9 +3,9 @@ entries:
   guacamole:
   - apiVersion: v2
     appVersion: 1.6.0
-    created: "2026-01-30T14:52:13.519244583Z"
+    created: "2026-01-30T15:09:46.715982919Z"
     description: Guacamole + Postgres (from repo manifests)
-    digest: 79c3694277e70de28f887d2f21dc541793e2442a9ec4e7247b303cc8b3bcc607
+    digest: c979525f2961c1215ed745f34a98d4472a55f99e3b018961a9ad7fbe6120453b
     name: guacamole
     type: application
     urls:
@@ -14,12 +14,12 @@ entries:
   n8n:
   - apiVersion: v2
     appVersion: 2.4.7
-    created: "2026-01-30T14:52:13.519763686Z"
+    created: "2026-01-30T15:09:46.716428104Z"
     description: n8n + postgres (from repo manifests)
-    digest: 1b965372552462a238040002dc8472d1946002b9a2994c207c0ee2f8ea47e6e7
+    digest: 0d9a596d0a0a53bd76cfe12621c2511e4dfda374103d89e212eeac0fb186f32a
     name: n8n
     type: application
     urls:
-    - https://windoc.github.io/helm-charts/n8n-0.1.0.tgz
-    version: 0.1.0
-generated: "2026-01-30T14:52:13.518620896Z"
+    - https://windoc.github.io/helm-charts/n8n-0.1.1.tgz
+    version: 0.1.1
+generated: "2026-01-30T15:09:46.715277101Z"
