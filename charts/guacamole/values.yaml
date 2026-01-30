@@ -23,8 +23,7 @@ configMap:
 
 secret:
   create: true
-  dbPasswordKey: DB_POSTGRESDB_PASSWORD
-  dbPassword: "db_password_change_me"
+  DB_POSTGRESDB_PASSWORD: "db_password_change_me"
 
 postgres:
   replicaCount: 1

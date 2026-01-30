@@ -76,7 +76,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.names.secret }}
-                  key: {{ .Values.secret.dbPasswordKey }}
+                  key: DB_POSTGRESDB_PASSWORD
           resources:
             {{- toYaml .Values.postgres.resources | nindent 12 }}
           volumeMounts:

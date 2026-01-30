@@ -6,7 +6,7 @@ This chart installs Guacamole (with `guacd`) and PostgreSQL.
 
 Update these in `values.yaml` before installing:
 
-- **Database password**: `secret.dbPassword` (default is a placeholder)
+- **Database password**: `secret.DB_POSTGRESDB_PASSWORD` (default is a placeholder)
 - **Postgres initdb**: keep `postgres.initdb.enabled` set to `true` on first install, set it to `false` if the DB data already exists
 - **Guacamole configuration**: `configMap.data` (set any Guacamole env vars here)
 - **Ingress**: set `ingress.host` to your FQDN and add any required `ingress.annotations` (for TLS, include `cert-manager.io/cluster-issuer:` if you use cert-manager)
