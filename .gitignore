@@ -6,3 +6,6 @@ repo/index.yaml
 .DS_Store
 *.swp
 *.swo
+
+# temp files for local development
+.temp/
